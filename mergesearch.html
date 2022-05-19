@@ -1,0 +1,693 @@
+<meta charset="utf-8">
+<title></title>
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
+<style type="text/css">
+  /* Set arrow buttons for search tables START */
+  td.details-control {
+    background: url('https://innovatetogrow.ucmerced.edu/sites/innovatetogrow.ucmerced.edu/files/images/details_open.png') no-repeat center center !important;
+    cursor: pointer;
+  }
+
+  tr.shown td.details-control {
+    background: url('https://innovatetogrow.ucmerced.edu/sites/innovatetogrow.ucmerced.edu/files/images/details_close.png') no-repeat center center !important;
+    cursor: pointer;
+  }
+  /* Set arrow buttons for search tables END */
+  
+  /* Set arrow buttons for merge table START */
+  td.details-control-merge {
+    background: url('https://innovatetogrow.ucmerced.edu/sites/innovatetogrow.ucmerced.edu/files/images/details_open.png') no-repeat center center !important;
+    cursor: pointer;
+  }
+
+  tr.shown td.details-control-merge {
+    background: url('https://innovatetogrow.ucmerced.edu/sites/innovatetogrow.ucmerced.edu/files/images/details_close.png') no-repeat center center !important;
+    cursor: pointer;
+  }
+  /* Set arrow buttons for merge table END */
+
+  /* This is to make the top headers of the table sticky */
+  th {
+    position: sticky;
+    top: 125px;
+    background-color: white;
+    overflow: unset;
+    z-index: 400;
+  }
+  
+  /* Set font and color for merge and search titles */
+  .titles {
+    font-family: "Oswald";
+    color: #002856;
+    text-align: center;
+  }
+
+  /* Bottom row holding all buttons */
+  .buttonStick {
+    position: sticky;
+    height: 40px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: #005487;
+    width: 100%;
+    color: #DAA900;
+    margin-bottom: -10;
+    padding-top: 5;
+    padding-left: 5;
+    border-top: solid #002856;
+  }
+  
+  /* Color for all buttons */
+  button {
+    color: #DAA900;
+    background-color: #002856;
+  }
+  
+  /* Condition to recolor buttons that have class gray (when delete and row buttons are gray) */
+  .gray {
+    background-color: #5B5B5B !important;
+  }
+
+  /* This is code for the question mark help tip START*/
+  .help-tip {
+    position: absolute;
+    top: 4px;
+    right: 909px;
+    left: 5px;
+    text-align: center;
+    background-color: #002856;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 26px;
+    cursor: default;
+  }
+
+  .help-tip:before {
+    content: '?';
+    font-weight: bold;
+    color: #daa900;
+    ;
+  }
+
+  .help-tip:hover p {
+    display: block;
+    transform-origin: 100% 0%;
+
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+  }
+
+  .help-tip p {
+    /* The tooltip */
+    display: none;
+    text-align: left;
+    background-color: #005487;
+    padding: 20px;
+    width: 300px;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 20%);
+    right: -317px;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+    bottom: 22px;
+  }
+
+  .help-tip p:before {
+    /* The pointer of the tooltip */
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: #005487;
+    right: 323px;
+    bottom: -11px;
+  }
+
+  .help-tip p:after {
+    /* Prevents the tooltip from being hidden */
+    width: 100%;
+    height: 40px;
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+  }
+
+  .help-tip2 {
+    position: absolute;
+    top: -5px;
+    left: 653px;
+    text-align: center;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 26px;
+    cursor: default;
+  }
+
+  .help-tip2:hover p {
+    display: block;
+    transform-origin: 100% 0%;
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+  }
+
+  .help-tip2 p {
+    /* The tooltip */
+    display: none;
+    text-align: left;
+    background-color: #005487;
+    padding: 20px;
+    width: 300px;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 20%);
+    right: -317px;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+    bottom: 3px;
+  }
+
+  .help-tip2 p:before {
+    /* The pointer of the tooltip */
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: #005487;
+    right: 323px;
+    bottom: -11px;
+  }
+
+  .help-tip2 p:after {
+    /* Prevents the tooltip from being hidden */
+    width: 100%;
+    height: 40px;
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: 0;
+  }
+
+  /* CSS animation for help tip */
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+
+    100% {
+      opacity: 100%;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 100%;
+    }
+  }
+  /* This is code for the question mark help tip END */
+  
+  /* Color of Secected rows */
+  tr.selected td {
+    background: #acbad4;
+  }
+
+  .dt-buttons {
+    margin-left: 325px !important;
+  }
+</style>
+
+<!-- Merge Table Template Setup (hidden at first) START -->
+<div class="mergeTable">
+  <h1 class="titles">Merged Table</h1>
+  <table class="display" id="example"
+    style="width:100%; border-style: double; padding: 5px 5px 5px 5px; border-width: 8px; border-color: #005487;">
+    <thead>
+      <tr id="row">
+        <th>Year-Semester</th>
+        <th>Class</th>
+        <th>Team#</th>
+        <th>Team Name</th>
+        <th style="padding-left: 75px; padding-right: 75px; ">Project Title</th>
+        <th>Organization</th>
+        <th>Industry</th>
+        <th>Details</th>
+        <th style="display:none;"></th>
+        <th style="display:none;"></th>
+      </tr>
+    </thead>
+  </table>
+</div>
+<!-- Merge Table Template Setup END -->
+
+<!-- Search Tables, class tableManage will add each search table -->
+<div class="tableManage">
+  <h1 class="titles">Search Tables</h1>
+</div>
+
+<!-- All buttons and help-tip START -->
+<div class="buttonStick">
+  <div style="position: absolute; top:11%">
+    <div class="help-tip">
+      <p>Click "+ Search Table" to begin adding search tables. Click any row to either keep or remove. Once happy with
+        results, click "Merge Tables". Repeat until desired merged search.</p>
+    </div>
+    <button type="button" class="addtable" style="margin-left: 35px;">+ Search Table</button>
+    <button type="button" class="merge" id="merge" value="false" style="margin-left: 10px;">Merge Tables</button>
+    <button type="button" class="deleterow" value="false" id="rowdelete" style="margin-left: 10px;">Delete Selected Rows</button>
+    <button type="button" class="keeprow" value="false" id="rowkeep" style="margin-left: 10px;">Keep Selected Rows</button>
+    <input type="checkbox" class="deletetable" value="false" id="tabledelete" style="margin-left: 10px; margin-bottom: 6px; margin-right: 6px;">Delete Table</input>
+    <div class="help-tip2">
+      <p>Once enabled, click anywhere on a search table to delete it.</p>
+    </div>
+  </div>
+</div>
+<!-- All buttons and help-tip END -->
+
+<!-- All JS Code START -->
+<!-- All includes of JS Libraries START -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+<!-- All includes of JS Libraries END -->
+<script type="text/javascript">
+  // global variables START
+  var alert_confirmation; // confirmation answer after a merge button is pressed
+  var merged_table; // the actual merged DataTable
+  var merged_array; // turning every kept row into a merged array
+  var search_counter = 0; // how many search tables there are
+  let checker = 0; // Checking if we are at a fresh merge button press
+  let confirmation_tracker = 0; // To Check and make sure that js alert does not be called more than once when you hit merge button
+  // global variable END
+  
+  // Prep START
+  $(document).ready(function () {
+    document.getElementById("rowdelete").disabled = true; // set delete and keep button to not work
+    document.getElementById("rowkeep").disabled = true;
+    $("#rowkeep").addClass('gray'); // gray out delete and keep button
+    $("#rowdelete").addClass('gray');
+    $(".mergeTable").hide(); // hide mergeTable div
+    
+    $(function () { 
+      $('.addtable').click(); // add a search table at the start of loading the page
+    });
+  });
+  // Prep END
+  
+  // Set the format of Abstract and Student Name when the button is clicked for Search Tables
+  function format(d) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+      '<tr>' +
+      '<td>Abstract:</td>' +
+      '<td>' + d["Abstract"] + '</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Student Names:</td>' +
+      '<td>' + d["Student Names"] + '</td>' +
+      '</tr>' +
+      '</table>';
+  }
+
+  // Set the format of Abstract and Student Name when the button is clicked for Merge Table
+  function mergeformat(d) {
+    // `d` is the original data object for the row
+    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+      '<tr>' +
+      '<td>Abstract:</td>' +
+      '<td>' + d[8] + '</td>' +
+      '</tr>' +
+      '<tr>' +
+      '<td>Student Names:</td>' +
+      '<td>' + d[9] + '</td>' +
+      '</tr>' +
+      '</table>';
+  }
+
+  // Merge Table specific functions START
+  $(document).ready(function () {
+    // Set merged_table as a DataTable. For each specific field refer to https://datatables.net/
+    merged_table = $('.display').DataTable({
+      "dom": 'lBfrtip',
+      "buttons": [
+        'csv', 'excel', 'pdf'
+      ],
+      "pageLength": 5,
+      "lengthMenu": [[5, 10, 25, 100], [5, 10, 25, 100]],
+      "search": {
+        "search": document.location.search.replace(/^.*?\=/, '')
+      },
+      "aoColumns": [
+        {}, {}, {}, {}, {}, {}, {},
+        {
+          "className": 'details-control-merge',
+          "orderable": false,
+          "mDataProp": "null",
+          "defaultContent": ''
+        },
+        {
+          "bVisible": false
+        },
+        {
+          "bVisible": false
+        }
+      ],
+      "order": [
+        [1, 'desc']
+      ],
+      fixedHeader: {
+        header: true,
+        footer: true
+      }
+    });
+  
+    // Select row function 
+    let select_count = 0; // keeps track of how many rows are selected
+    $('#example').on('click', 'tr', function () { 
+      $(this).toggleClass('selected');
+      if ($(this).hasClass('selected') == true) {
+        select_count++;
+      }
+      else {
+        select_count--;
+      }
+    });
+
+    // Detail button function, opens rows and closes them
+    $('#example').on('click', 'td.details-control-merge', function () {
+      var tr = $(this).closest('tr');
+      var td = $(this).closest('td');
+      tr.toggleClass('selected');
+      var row = merged_table.row(tr);
+      if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+        tr.css('color', 'Black');
+        tr.css('font-weight', 'normal');
+      } else {
+        // Open this row
+        row.child(mergeformat(row.data())).show();
+        tr.addClass('shown');
+        //change color of text to tell user that the row is assosiated to the abstract and student name
+        tr.css('color', '#162D4F');
+        tr.css('font-weight', 'bold');
+      }
+    });
+    
+  });
+  // Merge Table specific functions END
+  
+  // All functions under the search table scope (.addtable) START
+  $(document).on('click', '.addtable', function () { // adds a new search table and appends it to the .tableManage html
+    search_counter++
+    var html =
+      '<table class="display" id="example' + search_counter + '" style="width:100%">' +
+      '<thead>' +
+      '<tr>' +
+      '<th>Year-Semester</th>' +
+      '<th>Class</th>' +
+      '<th>Team#</th>' +
+      '<th>Team Name</th>' +
+      '<th>Project Title</th>' +
+      '<th>Organization</th>' +
+      '<th>Industry</th>' +
+      '<th>Details</th>' +
+      '<th style="display:none;"></th>' +
+      '<th style="display:none;"></th>' +
+      '</tr>' +
+      '</thead>' +
+      '</table>';
+    $(".tableManage").append(html);
+
+    // Set search_table as a DataTable. For each specific field refer to https://datatables.net/
+    var search_table = $('#example' + search_counter).DataTable({
+      "pageLength": 5,
+      "lengthMenu": [[5, 10, 25, 100], [5, 10, 25, 100]],
+      "search": {
+        "search": document.location.search.replace(/^.*?\=/, '')
+      },
+      "bServerSide": false,
+      "destroy": true,
+      "bProcessing": true,
+      "sAjaxDataProp": "data",
+      "sAjaxSource": "https://api.apispreadsheets.com/data/19362/",
+      "aoColumns": [
+        // mDataProp -> mapping to a specific field
+        {
+          "mDataProp": "Year-Semester",
+        },
+        {
+          "mDataProp": "Class"
+        },
+        {
+          "mDataProp": "Team#"
+        },
+        {
+          "mDataProp": "Team Name"
+        },
+        {
+          "mDataProp": "Project Title"
+        },
+        {
+          "mDataProp": "Organization"
+        },
+        {
+          "mDataProp": "Industry"
+        },
+        {
+          "className": 'details-control',
+          "orderable": false,
+          "mDataProp": "null",
+          "defaultContent": ''
+        },
+        {
+          "mDataProp": "Abstract",
+          "bVisible": false
+        },
+        {
+          "mDataProp": "Student Names",
+          "bVisible": false
+        }
+      ],
+      "order": [
+        [1, 'desc']
+      ],
+      fixedHeader: {
+        header: true,
+        footer: true
+      }
+    });
+
+    // Select row function
+    let select_count2 = 0; // keeps track of how many rows are selected
+    $('#example' + search_counter).on('click', 'tr', function () { 
+      $(this).toggleClass('selected');
+      if ($(this).hasClass('selected') == true) {
+        select_count2++;
+      }
+      else {
+        select_count2--;
+      }
+      if (select_count2 > 0) {
+        document.getElementById("rowdelete").disabled = false;
+        document.getElementById("rowkeep").disabled = false;
+        $("#rowkeep").removeClass('gray');
+        $("#rowdelete").removeClass('gray');
+      } else {
+        document.getElementById("rowdelete").disabled = true;
+        document.getElementById("rowkeep").disabled = true;
+        $("#rowkeep").addClass('gray');
+        $("#rowdelete").addClass('gray');
+      }
+    });
+
+    // Delete row function
+    $('#rowdelete').click(function () { 
+      search_table.rows('.selected').remove().draw(false);
+      select_count2 = 0;
+      document.getElementById("rowdelete").disabled = true;
+      document.getElementById("rowkeep").disabled = true;
+      $("#rowkeep").addClass('gray');
+      $("#rowdelete").addClass('gray');
+    });
+
+    // Merge results function START
+    $('#merge').click(function () { 
+      if (confirmation_tracker == 0) { // if its a fresh start, makes sure to ask for confirmation only once per press
+        if (confirm("Are you sure you want to merge all of your search tables? \n(this can not be undone!)")) {
+          alert_confirmation = true;
+          $(".mergeTable").show();
+          var merged_array = search_table.rows({ filter: 'applied' }).data().toArray(); // turn kept rows into an array
+          $('#example').DataTable().clear().draw(); // delete old table
+          for (let i = 0; i < merged_array.length; i++) { // set 2D array as necessary
+            var row = merged_table.row($(this).closest('tr'));
+            merged_table.row.add([
+              merged_array[i]["Year-Semester"],
+              merged_array[i]["Class"],
+              merged_array[i]["Team#"],
+              merged_array[i]["Team Name"],
+              merged_array[i]["Project Title"],
+              merged_array[i]["Organization"],
+              merged_array[i]["Industry"],
+              merged_array[i]["null"],
+              merged_array[i]["Abstract"],
+              merged_array[i]["Student Names"],
+            ]).draw();
+          }
+          merged_table.$('tr').toggleClass('keep');
+          for (let i = search_counter; i > 0; i--) { // delete search tables after merge
+            $('#example' + i).DataTable().destroy();
+            $('#example' + i).remove();
+          }
+        }
+        else {
+          alert_confirmation = false;
+        }
+      }
+      else if (confirmation_tracker != 0 && alert_confirmation == true) { // allows the merge to continue if confirmation is true
+        $(".mergeTable").show();
+        var merged_array = search_table.rows({ filter: 'applied' }).data().toArray();
+        for (let i = 0; i < merged_array.length; i++) {
+          var row = merged_table.row($(this).closest('tr'));
+          merged_table.row.add([
+            merged_array[i]["Year-Semester"],
+            merged_array[i]["Class"],
+            merged_array[i]["Team#"],
+            merged_array[i]["Team Name"],
+            merged_array[i]["Project Title"],
+            merged_array[i]["Organization"],
+            merged_array[i]["Industry"],
+            merged_array[i]["null"],
+            merged_array[i]["Abstract"],
+            merged_array[i]["Student Names"],
+          ]).draw();
+        }
+        merged_table.$('tr').toggleClass('keep');
+        for (let i = search_counter; i > 0; i--) {
+          $('#example' + i).DataTable().destroy();
+          $('#example' + i).remove();
+        }
+      }
+      confirmation_tracker++;
+    });
+    // Merge results function END
+
+    // Keep row function
+    $('#rowkeep').click(function () { 
+      if (search_table.$('tr').hasClass('keep') != true) {
+        search_table.$('tr').toggleClass('selected');
+        search_table.rows('.selected').remove().draw();
+        search_table.$('tr').toggleClass('keep');
+        count = 0;
+        keptSelection = true;
+      }
+      else {
+        keptSelection = false;
+      }
+      document.getElementById("rowdelete").disabled = true;
+      document.getElementById("rowkeep").disabled = true;
+      $("#rowkeep").addClass('gray');
+      $("#rowdelete").addClass('gray');
+    });
+
+    // Detail button function, opens rows and closes them
+    $('#example' + search_counter).on('click', 'td.details-control', function () {
+      var tr = $(this).closest('tr');
+      var td = $(this).closest('td');
+      tr.toggleClass('selected');
+      var row = search_table.row(tr);
+      if (row.child.isShown()) {
+        // This row is already open - close it
+        if (tr.hasClass('selected') == true) {
+          select_count2++;
+        } else {
+          select_count2--;
+        }
+        row.child.hide();
+        tr.removeClass('shown');
+        tr.css('color', 'Black');
+        tr.css('font-weight', 'normal');
+      } else {
+        if (tr.hasClass('selected') == true) {
+          select_count2++;
+        } else {
+          select_count2--;
+        }
+        // Open this row
+        row.child(format(row.data())).show();
+        tr.addClass('shown');
+        //change color of text to tell user that the row is assosiated to the abstract and student name
+        tr.css('color', '#162D4F');
+        tr.css('font-weight', 'bold');
+      }
+    });
+
+    // spacer between each search table
+    var line = '<p id="hr' + search_counter + '" style="margin-top:75px;"></p>';
+    $(".tableManage").append(line);
+
+    checker++;
+  });
+  // All functions under the search table scope (.addtable) END
+
+  // to reset the confirmation tracker back to 0; in order to ask for merge confirmation again (must be out .addTable scope)
+  $(document).on('click', '.merge', function () {
+    if (checker == search_counter) {
+      confirmation_tracker = 0;
+    }
+  });
+
+  // Delete table function (Out of .addTable scope in order to delete any search table)
+  $(document).ready(function () {
+    var delete_button = document.getElementById("tabledelete");
+    var delete_status = delete_button.value;
+
+    delete_button.addEventListener('click', () => {
+      if (delete_status == "false") {
+        delete_status = "true";
+      } else {
+        delete_status = "false";
+      }
+      $('.tableManage').on('click', 'table.display', function () {
+        if (delete_status == "true") {
+          var table = $(this).closest('table');
+          table.DataTable().clear().destroy();
+          table.remove();
+          document.getElementById("rowdelete").disabled = true;
+          document.getElementById("rowkeep").disabled = true;
+          $("#rowkeep").addClass('gray');
+          $("#rowdelete").addClass('gray');
+          select_count2 = 0;
+          document.getElementById("tabledelete").checked = false;
+          delete_status = "false";
+        }
+      })
+    })
+  });
+
+</script>
+<!-- All JS Code END -->
