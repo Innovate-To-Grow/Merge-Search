@@ -1,9 +1,9 @@
 <meta charset="utf-8">
 <title></title>
-<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
-<style type="text/css">
-  /* Set arrow buttons for search tables START */
+<link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css" rel="stylesheet" type="text/css" />
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet" />
+<style type="text/css">/* Set arrow buttons for search tables START */
   td.details-control {
     background: url('https://innovatetogrow.ucmerced.edu/sites/innovatetogrow.ucmerced.edu/files/images/details_open.png') no-repeat center center !important;
     cursor: pointer;
@@ -30,7 +30,7 @@
   /* This is to make the top headers of the table sticky */
   th {
     position: sticky;
-    top: 125px;
+    /* top: 125px; */
     background-color: white;
     overflow: unset;
     z-index: 400;
@@ -234,86 +234,103 @@
     margin-left: 325px !important;
   }
 </style>
-
 <!-- Merge Table Template Setup (hidden at first) START -->
 <div class="mergeTable">
-  <h1 class="titles">Merged Table</h1>
-  <table class="display" id="example"
-    style="width:100%; border-style: double; padding: 5px 5px 5px 5px; border-width: 8px; border-color: #005487;">
-    <thead>
-      <tr id="row">
-        <th>Year-Semester</th>
-        <th>Class</th>
-        <th>Team#</th>
-        <th>Team Name</th>
-        <th style="padding-left: 75px; padding-right: 75px; ">Project Title</th>
-        <th>Organization</th>
-        <th>Industry</th>
-        <th>Details</th>
-        <th style="display:none;"></th>
-        <th style="display:none;"></th>
-      </tr>
-    </thead>
-  </table>
-</div>
-<!-- Merge Table Template Setup END -->
+	<h1 class="titles">Merged Table</h1>
 
-<!-- Search Tables, class tableManage will add each search table -->
+	<table class="display" id="example" style="width:100%; border-style: double; padding: 5px 5px 5px 5px; border-width: 8px; border-color: #005487;">
+		<thead>
+			<tr id="row">
+				<th>Year-Semester</th>
+				<th>Class</th>
+				<th>Team#</th>
+				<th>Team Name</th>
+				<th style="padding-left: 75px; padding-right: 75px; ">Project Title</th>
+				<th>Organization</th>
+				<th>Industry</th>
+				<th>Details</th>
+				<th style="display:none;">&nbsp;</th>
+				<th style="display:none;">&nbsp;</th>
+			</tr>
+		</thead>
+	</table>
+</div>
+<!-- Merge Table Template Setup END --><!-- Search Tables, class tableManage will add each search table -->
+
 <div class="tableManage">
-  <h1 class="titles">Search Tables</h1>
+	<h1 class="titles">Search Tables</h1>
 </div>
-
 <!-- All buttons and help-tip START -->
+
 <div class="buttonStick">
-  <div style="position: absolute; top:11%">
-    <div class="help-tip">
-      <p>Click "+ Search Table" to begin adding search tables. Click any row to either keep or remove. Once happy with
-        results, click "Merge Tables". Repeat until desired merged search.</p>
-    </div>
-    <button type="button" class="addtable" style="margin-left: 35px;">+ Search Table</button>
-    <button type="button" class="merge" id="merge" value="false" style="margin-left: 10px;">Merge Tables</button>
-    <button type="button" class="deleterow" value="false" id="rowdelete" style="margin-left: 10px;">Delete Selected Rows</button>
-    <button type="button" class="keeprow" value="false" id="rowkeep" style="margin-left: 10px;">Keep Selected Rows</button>
-    <input type="checkbox" class="deletetable" value="false" id="tabledelete" style="margin-left: 10px; margin-bottom: 6px; margin-right: 6px;">Delete Table</input>
-    <div class="help-tip2">
-      <p>Once enabled, click anywhere on a search table to delete it.</p>
-    </div>
-  </div>
+	<div style="position: absolute; top:11%">
+		<div class="help-tip">
+			<p>Click &quot;+ Search Table&quot; to begin adding search tables. Click any row to either keep or remove. Once happy with results, click &quot;Merge Tables&quot;. Repeat until desired merged search.</p>
+		</div>
+		<button class="addtable" style="margin-left: 35px;" type="button">+ Search Table</button><button class="merge" id="merge" style="margin-left: 10px;" type="button" value="false">Merge Tables</button><button class="deleterow" id="rowdelete" style="margin-left: 10px;" type="button" value="false">Delete Selected Rows</button><button class="keeprow" id="rowkeep" style="margin-left: 10px;" type="button" value="false">Keep Selected Rows</button><input class="deletetable" id="tabledelete" style="margin-left: 10px; margin-bottom: 6px; margin-right: 6px;" type="checkbox" value="false" />Delete Table
+		<div class="help-tip2">
+			<p>Once enabled, click anywhere on a search table to delete it.</p>
+		</div>
+	</div>
 </div>
 <!-- All buttons and help-tip END -->
 
-<!-- All JS Code START -->
 <!-- All includes of JS Libraries START -->
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
 <!-- All includes of JS Libraries END -->
+<!-- All JS Code START -->
 <script type="text/javascript">
   // global variables START
   var alert_confirmation; // confirmation answer after a merge button is pressed
   var merged_table; // the actual merged DataTable
   var merged_array; // turning every kept row into a merged array
   var search_counter = 0; // how many search tables there are
+  let select_count2 = 0; // keeps track of how many rows are selected
   let checker = 0; // Checking if we are at a fresh merge button press
   let confirmation_tracker = 0; // To Check and make sure that js alert does not be called more than once when you hit merge button
+  var datas = [];
+  var test;
   // global variable END
   
   // Prep START
   $(document).ready(function () {
+    $.getJSON("https://sheets.googleapis.com/v4/spreadsheets/1KATiK1Fnlb7Vsd186mCbaGjhID-OUGN-1QHWY8hIc5U/values/Past-Projects-WEB-LIVE?alt=json&key=AIzaSyDWhIC7QQal9etKiwUDzs34yugQR0KqS94", function (data) {
+        var length = data.values.length;
+        console.log(length);
+        for ( var i = 1; i < length; i++){
+            const subArray = data.values[i];
+            subdata = {
+            "Year-Semester": subArray[0],
+            "Class": subArray[1],
+            "Team#": subArray[2],
+            "Team Name": subArray[3],
+            "Project Title": subArray[4],
+            "Organization": subArray[5],
+            "Industry": subArray[6],
+            "Abstract": subArray[7],
+            "Student Names": subArray[8],
+            };
+        JSON.stringify(subdata);
+        datas.push(subdata);
+        }
+      });
     document.getElementById("rowdelete").disabled = true; // set delete and keep button to not work
     document.getElementById("rowkeep").disabled = true;
     $("#rowkeep").addClass('gray'); // gray out delete and keep button
     $("#rowdelete").addClass('gray');
     $(".mergeTable").hide(); // hide mergeTable div
     
-    $(function () { 
+    setTimeout(function () { 
       $('.addtable').click(); // add a search table at the start of loading the page
-    });
+    }, 1500);
   });
   // Prep END
   
@@ -349,6 +366,7 @@
 
   // Merge Table specific functions START
   $(document).ready(function () {
+    
     // Set merged_table as a DataTable. For each specific field refer to https://datatables.net/
     merged_table = $('.display').DataTable({
       "dom": 'lBfrtip',
@@ -383,24 +401,12 @@
         footer: true
       }
     });
-  
-    // Select row function 
-    let select_count = 0; // keeps track of how many rows are selected
-    $('#example').on('click', 'tr', function () { 
-      $(this).toggleClass('selected');
-      if ($(this).hasClass('selected') == true) {
-        select_count++;
-      }
-      else {
-        select_count--;
-      }
-    });
+
 
     // Detail button function, opens rows and closes them
     $('#example').on('click', 'td.details-control-merge', function () {
       var tr = $(this).closest('tr');
       var td = $(this).closest('td');
-      tr.toggleClass('selected');
       var row = merged_table.row(tr);
       if (row.child.isShown()) {
         // This row is already open - close it
@@ -420,14 +426,43 @@
     
   });
   // Merge Table specific functions END
-  
+  function updateDataTableSelectAllCtrl(table){
+   var $table             = table.table().node();
+   var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+   var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+   var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+
+   // If none of the checkboxes are checked
+   if($chkbox_checked.length === 0){
+      chkbox_select_all.checked = false;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = false;
+      }
+
+   // If all of the checkboxes are checked
+   } else if ($chkbox_checked.length === $chkbox_all.length){
+      chkbox_select_all.checked = true;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = false;
+      }
+
+   // If some of the checkboxes are checked
+   } else {
+      chkbox_select_all.checked = true;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = true;
+      }
+   }
+}
   // All functions under the search table scope (.addtable) START
   $(document).on('click', '.addtable', function () { // adds a new search table and appends it to the .tableManage html
     search_counter++
+    var rows_selected = [];
     var html =
       '<table class="display" id="example' + search_counter + '" style="width:100%">' +
       '<thead>' +
       '<tr>' +
+      '<th><input name="select_all" value="' + search_counter + '" type="checkbox"></th>'+
       '<th>Year-Semester</th>' +
       '<th>Class</th>' +
       '<th>Team#</th>' +
@@ -445,72 +480,96 @@
 
     // Set search_table as a DataTable. For each specific field refer to https://datatables.net/
     var search_table = $('#example' + search_counter).DataTable({
+      "dom": 'Blfrtip',
+      "buttons": [
+      'selectAll',
+      'selectNone',
+      ],
       "pageLength": 5,
       "lengthMenu": [[5, 10, 25, 100], [5, 10, 25, 100]],
       "search": {
         "search": document.location.search.replace(/^.*?\=/, '')
       },
-      "bServerSide": false,
-      "destroy": true,
-      "bProcessing": true,
-      "sAjaxDataProp": "data",
-      "sAjaxSource": "https://api.apispreadsheets.com/data/19362/",
-      "aoColumns": [
-        // mDataProp -> mapping to a specific field
+        data: datas,
+        columns: [
         {
-          "mDataProp": "Year-Semester",
+         'targets': 0,
+         'searchable': false,
+         'orderable': false,
+         'width': '1%',
+         'className': 'dt-body-center',
+         'render': function (data, type, full, meta){
+             return '<input type="checkbox">';
+         }
         },
-        {
-          "mDataProp": "Class"
-        },
-        {
-          "mDataProp": "Team#"
-        },
-        {
-          "mDataProp": "Team Name"
-        },
-        {
-          "mDataProp": "Project Title"
-        },
-        {
-          "mDataProp": "Organization"
-        },
-        {
-          "mDataProp": "Industry"
-        },
+        {"data": "Year-Semester"},
+        {"data": "Class"},
+        {"data": "Team#"},
+        {"data": "Team Name"},
+        {"data": "Project Title"},
+        {"data": "Organization"},
+        {"data": "Industry"},
         {
           "className": 'details-control',
           "orderable": false,
-          "mDataProp": "null",
+          "data": null,
           "defaultContent": ''
         },
         {
-          "mDataProp": "Abstract",
-          "bVisible": false
+          "data": "Abstract",
+          "bVisible":false
         },
         {
-          "mDataProp": "Student Names",
+          "data": "Student Names",
           "bVisible": false
         }
-      ],
-      "order": [
-        [1, 'desc']
-      ],
-      fixedHeader: {
-        header: true,
-        footer: true
-      }
-    });
+        ],
+        order: [
+          [1, 'desc']
+        ],
+        'rowCallback': function(row, data, dataIndex){
+         // Get row ID
+         var rowId = data[0];
 
-    // Select row function
-    let select_count2 = 0; // keeps track of how many rows are selected
-    $('#example' + search_counter).on('click', 'tr', function () { 
-      $(this).toggleClass('selected');
-      if ($(this).hasClass('selected') == true) {
-        select_count2++;
+         // If row ID is in the list of selected row IDs
+         if($.inArray(rowId, rows_selected) !== -1){
+            $(row).find('input[type="checkbox"]').prop('checked', true);
+            $(row).addClass('selected');
+         }
+      },
+        fixedHeader: {
+          header: true,
+          footer: true
+        }
+    });
+ // Handle click on checkbox
+ $('#example'+ search_counter +' tbody').on('click', 'input[type="checkbox"]', function(e){
+      var $row = $(this).closest('tr');
+
+      // Get row data
+      var data = search_table.row($row).data();
+
+      // Get row ID
+      var rowId = data[0];
+
+      // Determine whether row ID is in the list of selected row IDs 
+      var index = $.inArray(rowId, rows_selected);
+
+      // If checkbox is checked and row ID is not in list of selected row IDs
+      if(this.checked && index === -1){
+         rows_selected.push(rowId);
+
+      // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+      } else if (!this.checked && index !== -1){
+         rows_selected.splice(index, 1);
       }
-      else {
-        select_count2--;
+
+      if(this.checked){
+         $row.addClass('selected');
+         select_count2++;
+      } else {
+         $row.removeClass('selected');
+         select_count2--;
       }
       if (select_count2 > 0) {
         document.getElementById("rowdelete").disabled = false;
@@ -523,7 +582,36 @@
         $("#rowkeep").addClass('gray');
         $("#rowdelete").addClass('gray');
       }
-    });
+
+      // Update state of "Select all" control
+      updateDataTableSelectAllCtrl(search_table);
+
+      // Prevent click event from propagating to parent
+      e.stopPropagation();
+   });
+
+   // Handle click on table cells with checkboxes
+   $('#example'+ search_counter).on('click', 'tbody td, thead th:first-child', function(e){
+      $(this).parent().find('input[type="checkbox"]').trigger('click');
+   });
+
+   // Handle click on "Select all" control
+   $('thead input[name="select_all"]', search_table.table().container()).on('click', function(e){
+      if(this.checked){
+         $('#example'+ this.value +' tbody input[type="checkbox"]:not(:checked)').trigger('click');
+      } else {
+         $('#example'+ this.value +' tbody input[type="checkbox"]:checked').trigger('click');
+      }
+
+      // Prevent click event from propagating to parent
+      e.stopPropagation();
+   });
+
+   // Handle table draw event
+   search_table.on('draw', function(){
+      // Update state of "Select all" control
+      updateDataTableSelectAllCtrl(search_table);
+   });
 
     // Delete row function
     $('#rowdelete').click(function () { 
@@ -618,25 +706,14 @@
     $('#example' + search_counter).on('click', 'td.details-control', function () {
       var tr = $(this).closest('tr');
       var td = $(this).closest('td');
-      tr.toggleClass('selected');
+      $(this).parent().find('input[type="checkbox"]').trigger('click');
       var row = search_table.row(tr);
       if (row.child.isShown()) {
-        // This row is already open - close it
-        if (tr.hasClass('selected') == true) {
-          select_count2++;
-        } else {
-          select_count2--;
-        }
         row.child.hide();
         tr.removeClass('shown');
         tr.css('color', 'Black');
         tr.css('font-weight', 'normal');
       } else {
-        if (tr.hasClass('selected') == true) {
-          select_count2++;
-        } else {
-          select_count2--;
-        }
         // Open this row
         row.child(format(row.data())).show();
         tr.addClass('shown');
@@ -689,5 +766,4 @@
     })
   });
 
-</script>
-<!-- All JS Code END -->
+</script><!-- All JS Code END -->
